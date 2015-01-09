@@ -101,7 +101,7 @@ void Environment::update(){
 	if (game_mode == EDIT){
 		if (engine->getMainEvent()->type == SDL_KEYDOWN){
 			if (!onePressed && engine->getMainEvent()->key.keysym.sym == SDLK_F1){
-				trees.push_back(new Tree(engine, -*engine->cameraX + 275, -*engine->cameraY + 50, engine->cameraX, engine->cameraY));
+				trees.push_back(new Tree(engine, - engine->camera->intX() + 275, - engine->camera->intY() + 50));
 				onePressed = true;
 				//std::cout << "X: " << *cameraX << "\tY: " << *cameraY << std::endl;
 			}
@@ -181,7 +181,7 @@ void Environment::loadEnvFromFile(){
 						}
 						else if (prevWord == "y:"){
 							temp_y = atoi(word.c_str());
-							trees.push_back(new Tree(engine, temp_x, temp_y, engine->cameraX, engine->cameraY));
+							trees.push_back(new Tree(engine, temp_x, temp_y));
 						}
 						prevWord = word;
 					}

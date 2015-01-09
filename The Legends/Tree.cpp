@@ -1,10 +1,8 @@
 #include "Tree.h"
 
 
-Tree::Tree(TL_Engine *p_engine,int p_x,int p_y,float *p_cameraX, float *p_cameraY)
+Tree::Tree(TL_Engine *p_engine,int p_x,int p_y)
 {		
-	cameraX = p_cameraX;
-	cameraY = p_cameraY;
 	x = p_x;
 	y = p_y;
 	engine = NULL;
@@ -23,13 +21,13 @@ Tree::~Tree()
 }
 
 void Tree::drawTrunk(){
-	if (100 <= trunk->getPositionRext().y  - *cameraY){
+	if (100 <= trunk->getPositionRext().y  - engine->cameraY()){
 		trunk->draw();
 	}
 }
 
 void Tree::drawCrown(){
-	if (100 >= trunk->getPositionRext().y - *cameraY){
+	if (100 >= trunk->getPositionRext().y - engine->cameraY()){
 		trunk->draw();
 	}
 	crown->draw();

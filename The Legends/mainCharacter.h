@@ -11,11 +11,6 @@ class mainCharacter
 public:
 	mainCharacter(TL_Engine *p_engine, Environment *p_environment);
 	~mainCharacter();
-
-	float getDistance(int x1, int y1, int x2, int y2);
-
-
-
 	void update();
 	void draw();
 private:
@@ -26,9 +21,8 @@ private:
 	float SPEED;
 	Sprite *bob;
 	Sprite *ping;
-	int follow_point_x;
-	int follow_point_y;
-	bool follow;
+	Point follow;
+	bool following;
 	bool stopAnimation;
 	int timeCheck;
 	float distance;

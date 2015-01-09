@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "Environment.h"
 #include <math.h>
+#include "Debug.h"
 class Cmain
 {
 public:
@@ -17,7 +18,7 @@ private:
 	TL_Engine *engine;
 
 	bool quit;
-
+	Debug *debug;
 	mainCharacter *bob;
 
 };
