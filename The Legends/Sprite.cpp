@@ -50,6 +50,7 @@ Sprite::Sprite(TL_Engine *p_engine, const char* FilePath, int x, int y, int w, i
 Sprite::~Sprite()
 {
 	SDL_DestroyTexture(image);
+	SDL_DestroyTexture(collImg);
 }
 
 void Sprite::setupAnimation(int x, int y){

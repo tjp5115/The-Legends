@@ -23,6 +23,8 @@ Cmain::~Cmain()
 {
 	delete engine;
 	delete bob;
+	delete debug;
+	delete forestArea;
 }
 
 

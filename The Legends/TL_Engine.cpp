@@ -30,6 +30,9 @@ TL_Engine::~TL_Engine()
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	delete mainEvent;
+	debugText.clear();
+	delete camera;
+	delete mouse;
 }
 
 SDL_Renderer* TL_Engine::getRenderer(){

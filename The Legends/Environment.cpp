@@ -70,6 +70,7 @@ Environment::~Environment()
 
 	border.clear();
 	trees.clear();
+	grass.clear();
 }
 
 void Environment::drawBack(){

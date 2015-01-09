@@ -15,7 +15,6 @@ Debug::Debug(TL_Engine *p_engine)
 
 Debug::~Debug()
 {
-	delete Sans;
 	for (std::vector<text>::iterator i = debug_out.begin(); i != debug_out.end(); ++i){
 		SDL_DestroyTexture(i->message);
 	}
@@ -30,12 +29,12 @@ void Debug::addText(const char* txt){
 
 	text t;
 	int pos = debug_out.size();
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, txt, White);
-	if (!surfaceMessage){
+	t.surface = TTF_RenderText_Solid(Sans, txt, White);
+	if (!t.surface){
 		printf("Oh My Goodness, an error : %s", TTF_GetError());
 	}
 
-	t.message = SDL_CreateTextureFromSurface(engine->getRenderer(), surfaceMessage); 
+	t.message = SDL_CreateTextureFromSurface(engine->getRenderer(), t.surface); 
 	if (t.message == 0){
 		exit(0);
 	}
@@ -58,5 +57,8 @@ void Debug::addText(std::vector<std::string> txt){
 }
 
 void Debug::clear(){
-	debug_out.clear();
+	for (; debug_out.size() > 0; debug_out.pop_back()){
+		SDL_DestroyTexture(debug_out.back().message);
+		SDL_FreeSurface(debug_out.back().surface);
+	}
 }
