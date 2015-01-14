@@ -26,12 +26,7 @@ public:
 	void update_begin();
 	void update_end();
 	bool mouseClickLeft();
-	float cameraX(){ return camera->x; }
-	float cameraY(){ return camera->y; }
-	float mouseX(){ return mouse->x; }
-	float mouseY(){ return mouse->y; }
 	float getDistance(Point p1, Point p2);
-
 	bool debug;
 	vector<string> debugText;
 	void addDebugText(string s);

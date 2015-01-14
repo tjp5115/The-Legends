@@ -4,15 +4,13 @@
 Cmain::Cmain(int passed_screenWidth, int passed_screenHeight)
 {
 	quit = false; 
+	engine = NULL; 
 	engine = new TL_Engine(&quit, passed_screenWidth, passed_screenHeight);
 
 	forestArea = NULL;
 	forestArea = new Environment(engine);
 	
 	debug = new Debug(engine);
-	debug->addText("s");
-	debug->addText("s");
-	debug->addText("s");
 	bob = NULL;
 	bob = new mainCharacter(engine,forestArea);
 

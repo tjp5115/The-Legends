@@ -40,8 +40,8 @@ Sprite::Sprite(TL_Engine *p_engine, const char* FilePath, int x, int y, int w, i
 	amount_frame_x = 0;
 	amount_frame_y = 0;
 
-	camera.x = rect.x + engine->cameraX();
-	camera.y = rect.y + engine->cameraY();
+	camera.x = rect.x + engine->camera->x;
+	camera.y = rect.y + engine->camera->y;
 	camera.w = rect.w;
 	camera.h = rect.h;
 
@@ -81,10 +81,10 @@ void Sprite::drawSteady(){
 }
 
 void Sprite::draw(void){
-	camera.x = rect.x + engine->cameraX();
-	camera.y = rect.y + engine->cameraY();
-	collisionRect.setX(rect.x + engine->cameraX());
-	collisionRect.setY(rect.y + engine->cameraY());
+	camera.x = rect.x + engine->camera->x;
+	camera.y = rect.y + engine->camera->y;
+	collisionRect.setX(rect.x + engine->camera->x);
+	collisionRect.setY(rect.y + engine->camera->y);
 
 	SDL_RenderCopy(renderer, image, &crop, &camera);
 	SDL_RenderCopy(renderer, collImg, NULL,&collisionRect.getRect());
@@ -92,8 +92,8 @@ void Sprite::draw(void){
 void Sprite::drawPointer(int mouseClickX, int mouseClickY){
 	camera.x = mouseClickX;
 	camera.y = mouseClickY;
-	collisionRect.setX(rect.x + engine->cameraX());
-	collisionRect.setY(rect.y + engine->cameraY());
+	collisionRect.setX(rect.x + engine->camera->x);
+	collisionRect.setY(rect.y + engine->camera->y);
 
 	SDL_RenderCopy(renderer, image, &crop, &camera);
 	SDL_RenderCopy(renderer, collImg, NULL, &collisionRect.getRect());

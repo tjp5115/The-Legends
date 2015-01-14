@@ -7,12 +7,10 @@ mainCharacter::mainCharacter(TL_Engine *p_engine, Environment *p_environment)
 	SPEED = 5.2f;
 	following = false;
 	follow = *engine->mouse;
-
-	timeCheck = SDL_GetTicks();
-	debugTime = SDL_GetTicks();
+	moveDistance.y = 0;
+	moveDistance.x = 0;
 	distance = 0;
-	stopAnimation = false;
-
+	collide = false;
 	bob = new Sprite(engine, "data/tom.png", 300, 250, 130, 130, CollisionRect(168, 172, 60, 35));
 	ping = new Sprite(engine, "data/movement/ping.png", 300, 250, 20, 20, CollisionRect());
 	bob->setY(bob->getY());
@@ -30,63 +28,48 @@ mainCharacter::~mainCharacter()
 
 void mainCharacter::draw(){
 		bob->drawSteady();
-		if (debugTime + 2000 < SDL_GetTicks()){
-			std::cout << "DEFAULT POINT OUT" << std::endl;
-			std::cout << "MP_CAMERA:\t  X: " << engine->cameraX() << "\tY: " << engine->cameraY() << std::endl;
-			std::cout << "MP_FOLLOW:\t  X: " << follow.x << "\tY: " << follow.y << std::endl;
-			std::cout << "MP_MOUSE:\t X: " << engine->mouseX() << "\tY: " << engine->mouseY() << std::endl;
-			std::cout << "DISTANCE: " << distance << std::endl;
-			debugTime = SDL_GetTicks();
-		}
-		if ( (engine->camera->intY() != follow.intY()) && (engine->camera->intX() != follow.intX()) ) {
-			//ping->camera.x = *engine->cameraX - follow_point_x+500;
-			//ping->camera.y = *engine->cameraY - follow_point_y+500;
-
-			ping->drawPointer(mouseClickX,mouseClickY);
-
-
+		if ( following ){
+			ping->drawPointer(mouseClick.x - ping->getPositionRect().h/2,mouseClick.y - ping->getPositionRect().h/2);
 		}
 }
 
 void mainCharacter::updateAnimation(){
 	float angle = atan2(follow.y - engine->camera->y, follow.x - engine->camera->x);
 	angle = angle * (180 / 3.14) + 180;
-	if (!stopAnimation){
-		if (angle > 225 && angle <= 315){
-			//up
-			if (distance > 15){
-				bob->playAnimation(0, 3, 3, 300);
-			}
-			else{
-				bob->playAnimation(1, 1, 3, 300);
-			}
+	if (angle > 225 && angle <= 315){
+		//up
+		if (distance > 15){
+			bob->playAnimation(0, 3, 3, 300);
 		}
-		else if ((angle <= 360 && angle > 315) || (angle >= 0 && angle <= 45)) {
-			//right
-			if (distance > 15){
-				bob->playAnimation(0, 3, 2, 300);
-			}
-			else{
-				bob->playAnimation(1, 1, 2, 300);
-			}
+		else{
+			bob->playAnimation(1, 1, 3, 300);
 		}
-		else if (angle > 45 && angle <= 135){
-			//down
-			if (distance > 15){
-				bob->playAnimation(0, 3, 0, 300);
-			}
-			else{
-				bob->playAnimation(1, 1, 0, 300);
-			}
+	}
+	else if ((angle <= 360 && angle > 315) || (angle >= 0 && angle <= 45)) {
+		//right
+		if (distance > 15){
+			bob->playAnimation(0, 3, 2, 300);
 		}
-		else if (angle > 135 && angle <= 225){
-			//left
-			if (distance > 15){
-				bob->playAnimation(0, 3, 1, 300);
-			}
-			else{
-				bob->playAnimation(1, 1, 1, 300);
-			}
+		else{
+			bob->playAnimation(1, 1, 2, 300);
+		}
+	}
+	else if (angle > 45 && angle <= 135){
+		//down
+		if (distance > 15){
+			bob->playAnimation(0, 3, 0, 300);
+		}
+		else{
+			bob->playAnimation(1, 1, 0, 300);
+		}
+	}
+	else if (angle > 135 && angle <= 225){
+		//left
+		if (distance > 15){
+			bob->playAnimation(0, 3, 1, 300);
+		}
+		else{
+			bob->playAnimation(1, 1, 1, 300);
 		}
 	}
 }
@@ -94,73 +77,88 @@ void mainCharacter::updateAnimation(){
 void mainCharacter::updateControls(){
 
 	if (engine->mouseClickLeft()){
-		follow.x = engine->cameraX() - engine->mouseX()  + 365;
-		follow.y = engine->cameraY() - engine->mouseY() + 380;
+		follow.x = engine->camera->x  - engine->mouse->x + bob->getX() + bob->getWidth()/2 ;
+		follow.y = engine->camera->y - engine->mouse->y + bob->getY() + bob->getHeight() ;
 		following = true;
-		mouseClickX = engine->mouseX();
-		mouseClickY = engine->mouseY();
-		if (debugTime + 500 < SDL_GetTicks()){
-			std::cout << "Click POINT OUT" << std::endl;
-			std::cout << "MP_CAMERA:\t  X: " << engine->cameraX() << "\tY: " << engine->cameraY() << std::endl;
-			std::cout << "MP_FOLLOW:\t  X: " << follow.x << "\tY: " << follow.y << std::endl;
-			std::cout << "MP_MOUSE:\t X: " << engine->mouseX() << "\tY: " << engine->mouseY() << std::endl;
-			debugTime = SDL_GetTicks();
-		}
+		mouseClick.x = engine->mouse->x;
+		mouseClick.y = engine->mouse->y;
+		distance = engine->getDistance(*engine->camera, follow);
+		moveDistance.x = ((engine->camera->x  - follow.x) / distance)*SPEED;
+		moveDistance.y = ((engine->camera->y - follow.y) / distance)*SPEED;
+
 	}
 	if (timeCheck + 7 < SDL_GetTicks() && following){
-
+		collision();
 		distance = engine->getDistance(*engine->camera, follow);
-		if (distance < 1){
-			stopAnimation = true;
+		if (distance > 4){
+			moveCharacter(moveDistance);
 		}
 		else{
-			stopAnimation = false;
+			engine->camera->x = follow.x;
+			engine->camera->y = follow.y;
+			/*
+			Point temp;
+			temp.x = engine->camera->x - follow.x;
+			temp.y = engine->camera->y - follow.y;
+			
+			moveCharacter(temp);
+			*/
+			following = false;
 		}
-		if (distance > 0){
-			bool collide = false;
-			std::vector<Tree*> trees = environment->getTrees();
-			for (int i = 0; i < trees.size(); ++i){
-				if (bob->isColliding( trees[i]->getTrunk()->getCollisionRect() ) ) {
-					if (follow.x< engine->cameraX()){
-						engine->camera->x += 1;
-					}
-					if (follow.x> engine->cameraX()){
-						engine->camera->x -= 1;
-					}
-					if (follow.y< engine->cameraY()){
-						engine->camera->y += 1;
-					}
-					if (follow.y> engine->cameraY()){
-						engine->camera->y -= 1;
-					}
-					follow.x = engine->cameraX();
-					follow.y = engine->cameraY();
-					collide = true;
-					stopAnimation = true;
-				}
-			}
-			if (!collide){
-				if (engine->camera->intY() != follow.intY()){
-					engine->camera->y = engine->cameraY() - (((engine->cameraY() - follow.y) / distance)*SPEED);
-					mouseClickY = mouseClickY - (((engine->cameraY() - follow.y) / distance)*SPEED);
-				}
-				if (engine->camera->intX() != follow.intX()){
-					engine->camera->x = engine->cameraX()- (((engine->cameraX() - follow.x) / distance)*SPEED);
-					mouseClickX = mouseClickX - (((engine->cameraX() - follow.x) / distance)*SPEED);
-				}
-			}
-			else{
-
-			}
-		}
-		timeCheck = SDL_GetTicks();
+	timeCheck = SDL_GetTicks();
 	}
-	
+}
+void mainCharacter::collision(){
+	collide = false;
+	std::vector<Tree*> trees = environment->getTrees();
+	for (int i = 0; i < trees.size(); ++i){
+		if (bob->isColliding(trees[i]->getTrunk()->getCollisionRect())) {
+			if (follow.x< engine->camera->x){
+				engine->camera->x += 5;
+			}
+			if (follow.x> engine->camera->x ){
+				engine->camera->x -= 5;
+			}
+			if (follow.y< engine->camera->y){
+				engine->camera->y += 5;
+			}
+			if (follow.y> engine->camera->y){
+				engine->camera->y -= 5;
+			}
+			following = false;
+			collide = true;
+			follow = *engine->camera;
+		}
+	}
 }
 
+void mainCharacter::moveCharacter(Point dist){
+	if (!collide){
+		if (engine->camera->intX() != follow.intX()){
+			engine->camera->x -= moveDistance.x;
+			if (!engine->mouseClickLeft()){
+				mouseClick.x -= moveDistance.x;
+			}
+		}
+		if (engine->camera->intY() != follow.intY()){
+			engine->camera->y -= moveDistance.y;
+			if (!engine->mouseClickLeft()){
+				mouseClick.y -= moveDistance.y;
+			}
+		}
+	}
+}
 void mainCharacter::update(){
-
 	updateAnimation();
 	updateControls();
-
+	if (engine->debug){
+		string s = "followX:    " + to_string(follow.x) + "    followY     " + to_string(follow.y);
+		engine->addDebugText(s);
+		s = "mouseClickX:    " + to_string(mouseClick.x) + "    mouseClickY     " + to_string(mouseClick.y);
+		engine->addDebugText(s);
+		s = "distance:    " + to_string(distance);
+		engine->addDebugText(s);
+		s = "moveDistX:    " + to_string(moveDistance.x) + "    moveDistY     " + to_string(moveDistance.y);	
+		engine->addDebugText(s);
+	}
 }

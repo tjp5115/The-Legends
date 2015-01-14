@@ -14,8 +14,7 @@ public:
 	void update();
 	void draw();
 private:
-	int mouseClickX;
-	int mouseClickY;
+	Point mouseClick;
 	TL_Engine *engine;
 	Environment *environment;
 	float SPEED;
@@ -23,14 +22,13 @@ private:
 	Sprite *ping;
 	Point follow;
 	bool following;
-	bool stopAnimation;
-	int timeCheck;
 	float distance;
-
-	int debugTime;
-
-
+	bool collide;
+	Point moveDistance;
+	void moveCharacter(Point dist);
+	void collision();
 	void mainCharacter::updateAnimation();
 	void mainCharacter::updateControls();
+	int timeCheck;
 };
 

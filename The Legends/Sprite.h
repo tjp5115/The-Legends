@@ -27,15 +27,12 @@ public:
 	void playAnimation(int beginFrame, int endFrame, int row, float speed);
 	void setupAnimation(int x, int y);
 
-	CollisionRect getCollisionRext(){ return collisionRect; }
-
 	void drawSteady();
 
 	bool isColliding(CollisionRect theCollider);
-
 	CollisionRect getCollisionRect(){ return collisionRect; }
 	void drawPointer(int mouseClickX, int mouseClickY);
-	SDL_Rect getPositionRext(){ return rect; }
+	SDL_Rect getPositionRect(){ return rect; }
 private:
 	TL_Engine *engine;
 	SDL_Renderer *renderer;

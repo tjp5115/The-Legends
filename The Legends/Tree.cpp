@@ -21,13 +21,13 @@ Tree::~Tree()
 }
 
 void Tree::drawTrunk(){
-	if (100 <= trunk->getPositionRext().y  - engine->cameraY()){
+	if (100 <= trunk->getPositionRect().y  - engine->camera->y){
 		trunk->draw();
 	}
 }
 
 void Tree::drawCrown(){
-	if (100 >= trunk->getPositionRext().y - engine->cameraY()){
+	if (100 >= trunk->getPositionRect().y - engine->camera->y){
 		trunk->draw();
 	}
 	crown->draw();

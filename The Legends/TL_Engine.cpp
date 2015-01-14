@@ -4,7 +4,6 @@
 TL_Engine::TL_Engine(bool * quit, int passed_screenWidth, int passed_screenHeight)
 {
 	debug = true;
-
 	mouse = new Point(0, 0);
 	camera = new Point(0, 0);
 	SDL_Init(SDL_INIT_VIDEO);
@@ -65,10 +64,9 @@ void TL_Engine::update_begin(){
 
 }
 bool TL_Engine::mouseClickLeft(){
-	if (getMainEvent()->type == SDL_MOUSEBUTTONDOWN || getMainEvent()->type == SDL_MOUSEMOTION){
-		if (getMainEvent()->button.button == SDL_BUTTON_LEFT){
-			return true;
-		}
+	if (getMainEvent()->button.button == SDL_BUTTON_LEFT){
+		return true;
+
 	}
 	return false;
 }
