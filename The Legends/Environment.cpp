@@ -8,7 +8,7 @@ Environment::Environment(TL_Engine *p_engine)
 	int cWidth = 264;
 	int cHeight= 275;
 	onePressed = false;
-		for (int i = 0; i < 4; ++i){
+	for (int i = 0; i < 4; ++i){
 		int j = 0;
 
 		for (j; j < 7; ++j){
@@ -43,7 +43,6 @@ Environment::Environment(TL_Engine *p_engine)
 
 			grass.push_back( new Sprite(engine, "data/environment/grass.bmp", engine->screenWidth * i, engine->screenHeight * j, engine->screenWidth, engine->screenHeight,CollisionRect()) );
 		}
-
 	}
 	game_mode = PLAY;
 	env_type = ENV_NONE;

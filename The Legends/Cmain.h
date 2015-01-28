@@ -4,6 +4,7 @@
 #include "Environment.h"
 #include <math.h>
 #include "Debug.h"
+#include "Players.h"
 class Cmain
 {
 public:
@@ -15,9 +16,10 @@ public:
 private: 
 	Environment *forestArea;
 
+
+	Players *players;
 	TL_Engine *engine;
 
-	bool quit;
 	Debug *debug;
 	mainCharacter *bob;
 

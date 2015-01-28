@@ -1,27 +1,21 @@
 #pragma once
-#include "Sprite.h"
-#include "Tree.h"
+//#include "Tree.h"
 #include "CollisionRect.h"
-#include "Environment.h"
-#include <vector>
-
-
-class mainCharacter
+//#include "Environment.h"
+#include "Sprite.h"
+class mainCharacter : public Sprite
 {
 public:
-	mainCharacter(TL_Engine *p_engine, Environment *p_environment);
+	mainCharacter(TL_Engine *p_engine, const char* FilePath, int x, int y, int h, int w, CollisionRect p_collisionRect);
+
 	~mainCharacter();
 	void update();
 	void draw();
 private:
-	Point mouseClick;
-	TL_Engine *engine;
-	Environment *environment;
+	//Environment *environment;
 	float SPEED;
-	Sprite *bob;
-	Sprite *ping;
 	Point follow;
-	bool following;
+	bool *following;
 	float distance;
 	bool collide;
 	Point moveDistance;
@@ -30,5 +24,6 @@ private:
 	void mainCharacter::updateAnimation();
 	void mainCharacter::updateControls();
 	int timeCheck;
+	Point *position;
 };
 

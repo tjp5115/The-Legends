@@ -1,6 +1,7 @@
 #include "Sprite.h"
 
-
+Sprite::Sprite(){
+}
 Sprite::Sprite(TL_Engine *p_engine, const char* FilePath, int x, int y, int w, int h,CollisionRect p_collisionRect)
 {
 	collisionRect = p_collisionRect;
@@ -89,15 +90,16 @@ void Sprite::draw(void){
 	SDL_RenderCopy(renderer, image, &crop, &camera);
 	SDL_RenderCopy(renderer, collImg, NULL,&collisionRect.getRect());
 }
-void Sprite::drawPointer(int mouseClickX, int mouseClickY){
-	camera.x = mouseClickX;
-	camera.y = mouseClickY;
-	collisionRect.setX(rect.x + engine->camera->x);
-	collisionRect.setY(rect.y + engine->camera->y);
+void Sprite::draw(Point p){
+	camera.x = rect.x + p.x;
+	camera.y = rect.y + p.y;
+	collisionRect.setX(rect.x + p.x);
+	collisionRect.setY(rect.y + p.y);
 
 	SDL_RenderCopy(renderer, image, &crop, &camera);
 	SDL_RenderCopy(renderer, collImg, NULL, &collisionRect.getRect());
 }
+
 float Sprite::getX(){
 	return xPos;
 }
@@ -142,4 +144,3 @@ bool Sprite::isColliding(CollisionRect r){
 		collisionRect.getRect().y > r.getRect().y + r.getRect().h
 		);
 }
-

@@ -1,25 +1,25 @@
 #include "TL_Engine.h"
 
 
-TL_Engine::TL_Engine(bool * quit, int passed_screenWidth, int passed_screenHeight)
+TL_Engine::TL_Engine(int passed_screenWidth, int passed_screenHeight)
 {
+	quit = false;
 	debug = true;
 	mouse = new Point(0, 0);
 	camera = new Point(0, 0);
 	SDL_Init(SDL_INIT_VIDEO);
 	window = NULL;
-	window = SDL_CreateWindow("The Legends", 100, 100, passed_screenWidth, passed_screenHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("The Legends", 100, 100, passed_screenWidth, passed_screenHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN );
+	SDL_ShowCursor(1);
 	if (window == NULL){
 		std::cout << "failed to create window" << std::endl;
-		*quit = true;
 	}
-
+	SDL_SetWindowGrab(window, SDL_TRUE);
 	screenHeight = passed_screenHeight;
 	screenWidth = passed_screenWidth;
 
 	renderer = NULL;
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
 	mainEvent = new SDL_Event();
 }
 
@@ -49,12 +49,15 @@ void TL_Engine::update_begin(){
 	SDL_GetMouseState(&x, &y);
 	mouse->set(x, y);
 
-	SDL_PollEvent(getMainEvent());
-	SDL_RenderClear(getRenderer());
+	SDL_PollEvent(mainEvent);
+	SDL_RenderClear(renderer);
 
 	if (getMainEvent()->type == SDL_KEYDOWN){
 		if (getMainEvent()->key.keysym.sym == SDLK_F5){
 			debug = !debug;
+		}
+		if (mainEvent->key.keysym.sym == SDLK_ESCAPE){
+			quit = true;
 		}
 	}
 
@@ -64,9 +67,11 @@ void TL_Engine::update_begin(){
 
 }
 bool TL_Engine::mouseClickLeft(){
-	if (getMainEvent()->button.button == SDL_BUTTON_LEFT){
+	if (mainEvent->button.type == SDL_MOUSEBUTTONUP && mainEvent->button.button == SDL_BUTTON_LEFT){
+		return false;
+	}
+	if (mainEvent->button.button == SDL_BUTTON_LEFT ){
 		return true;
-
 	}
 	return false;
 }
@@ -90,3 +95,4 @@ float TL_Engine::getDistance(Point p1, Point p2){
 void TL_Engine::addDebugText(string s){
 	debugText.push_back(s);
 }
+

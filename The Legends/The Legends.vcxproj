@@ -78,6 +78,8 @@
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="mainCharacter.h" />
+    <ClInclude Include="MouseSprite.h" />
+    <ClInclude Include="Players.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TL_Engine.h" />
@@ -89,6 +91,8 @@
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="mainCharacter.cpp" />
+    <ClCompile Include="MouseSprite.cpp" />
+    <ClCompile Include="Players.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TheLegends.cpp" />

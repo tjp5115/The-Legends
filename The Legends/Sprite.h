@@ -5,6 +5,7 @@ class Sprite
 {
 public:
 	Sprite(TL_Engine *p_engine, const char* FilePath, int x, int y, int h, int w, CollisionRect p_collisionRect);
+	Sprite();
 	~Sprite();
 
 	void draw();
@@ -26,19 +27,21 @@ public:
 	void setHeight(int h);
 	void playAnimation(int beginFrame, int endFrame, int row, float speed);
 	void setupAnimation(int x, int y);
-
+	void draw(Point p);
 	void drawSteady();
-
+	void movePos();
 	bool isColliding(CollisionRect theCollider);
 	CollisionRect getCollisionRect(){ return collisionRect; }
 	void drawPointer(int mouseClickX, int mouseClickY);
 	SDL_Rect getPositionRect(){ return rect; }
-private:
+protected:
 	TL_Engine *engine;
+	CollisionRect collisionRect;
+	SDL_Rect rect;
+private:
 	SDL_Renderer *renderer;
 
-	CollisionRect collisionRect;
-
+	SDL_Rect crop;
 	float origin_x;
 	float origin_y;
 	float xPos;
@@ -52,11 +55,11 @@ private:
 
 	int currentFrame;
 	int animationDelay;
-	SDL_Rect crop;
+
 	SDL_Texture* image;
 	SDL_Texture* collImg;
 
-	SDL_Rect rect;
+
 
 };
 

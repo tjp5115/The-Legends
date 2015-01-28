@@ -15,7 +15,7 @@ using namespace std;
 class TL_Engine
 {
 public:
-	TL_Engine(bool * quit, int passed_screenWidth, int passed_screenHeight);
+	TL_Engine(int passed_screenWidth, int passed_screenHeight);
 	~TL_Engine();
 	int screenWidth;
 	int screenHeight;
@@ -31,10 +31,15 @@ public:
 	vector<string> debugText;
 	void addDebugText(string s);
 	void updateDebug();
+	Point mouseClick;
+	bool quit;
+
 private:
+	void updateMousePosition(); 
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	SDL_Event *mainEvent;
 	void emptyDebugText();
+
 };
 

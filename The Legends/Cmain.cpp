@@ -3,17 +3,21 @@
 
 Cmain::Cmain(int passed_screenWidth, int passed_screenHeight)
 {
-	quit = false; 
 	engine = NULL; 
-	engine = new TL_Engine(&quit, passed_screenWidth, passed_screenHeight);
+	engine = new TL_Engine(passed_screenWidth, passed_screenHeight);
+
+	players = new Players(engine);
+
 
 	forestArea = NULL;
 	forestArea = new Environment(engine);
 	
 	debug = new Debug(engine);
 	bob = NULL;
-	bob = new mainCharacter(engine,forestArea);
+	bob = new mainCharacter(engine, "data/tom.png", 300, 250, 130, 130, CollisionRect(0, 0, 60, 35));
 
+	players->addPlayer(bob);
+	//SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 
@@ -27,7 +31,7 @@ Cmain::~Cmain()
 
 
 void Cmain::GameLoop(void){
-	while (!quit && engine->getMainEvent()->type != SDL_QUIT){
+	while (!engine->quit && engine->getMainEvent()->type != SDL_QUIT){
 		//perform the begining loop functions
 		engine->update_begin();
 		if (debug){
@@ -35,7 +39,7 @@ void Cmain::GameLoop(void){
 		}
 		//draw sprites
 		forestArea->drawBack();
-
+		players->update();
 		bob->draw();
 		bob->update();
 		forestArea->drawFront();
