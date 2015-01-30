@@ -1,12 +1,13 @@
 #include "mainCharacter.h"
 
-mainCharacter::mainCharacter(TL_Engine *p_engine, const char* FilePath, int x, int y, int h, int w, CollisionRect p_collisionRect)	:
+mainCharacter::mainCharacter(TL_Engine *p_engine,Environment *p_environment, const char* FilePath, int x, int y, int h, int w, CollisionRect p_collisionRect)	:
 Sprite(p_engine, FilePath, x, y, h, w, p_collisionRect)
 {
+	environment = p_environment;
 	SPEED = 5.2f;
 	following = (bool*)malloc(sizeof(bool));
 	*following = false;
-	follow = *engine->mouse;
+	follow = Point(0,0);
 	moveDistance.y = 0;
 	moveDistance.x = 0;
 	distance = 0;
@@ -25,8 +26,10 @@ mainCharacter::~mainCharacter()
 }
 
 void mainCharacter::draw(){
-		//draw();
-		Sprite::draw(*position);
+	rect.x = position->x;
+	rect.y = position->y;
+	//Sprite::draw(*position);
+	Sprite::draw();
 
 }
 
@@ -75,8 +78,11 @@ void mainCharacter::updateControls(){
 
 	if (engine->mouseClickLeft()){
 		engine->mouseClick = *engine->mouse;
-		follow.x = position->x - engine->mouse->x + getX() + getWidth()/2 ;
-		follow.y = position->y - engine->mouse->y + getY() + getHeight() ;
+		//follow.x = position->x - engine->mouse->x + getWidth()/2 ;
+		//follow.y = position->y - engine->mouse->y + getHeight() ;
+		follow.x = engine->camera->x - engine->mouse->x;
+		follow.y = engine->camera->y - engine->mouse->y;
+		;
 		*following = true;
 
 		distance = engine->getDistance(*position, follow);
@@ -105,7 +111,6 @@ void mainCharacter::updateControls(){
 }
 
 void mainCharacter::collision(){
-	/*
 	collide = false;
 	std::vector<Tree*> trees = environment->getTrees();
 	for (int i = 0; i < trees.size(); ++i){
@@ -124,10 +129,9 @@ void mainCharacter::collision(){
 			}
 			*following = false;
 			collide = true;
-			follow = *engine->camera;
+			//follow = *engine->camera;
 		}
 	}
-	*/
 }
 
 void mainCharacter::moveCharacter(Point dist){

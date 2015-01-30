@@ -29,8 +29,8 @@ Sprite::Sprite(TL_Engine *p_engine, const char* FilePath, int x, int y, int w, i
 
 	SDL_QueryTexture(image, NULL, NULL, &image_width, &image_height);
 
-	xPos = x;
-	yPos = y;
+//	xPos = x;
+//	yPos = y;
 
 	crop.w = image_width;
 	crop.h = image_height;
@@ -91,37 +91,39 @@ void Sprite::draw(void){
 	SDL_RenderCopy(renderer, collImg, NULL,&collisionRect.getRect());
 }
 void Sprite::draw(Point p){
-	camera.x = rect.x + p.x;
-	camera.y = rect.y + p.y;
-	collisionRect.setX(rect.x + p.x);
-	collisionRect.setY(rect.y + p.y);
+	//camera.x = rect.x + p.x;
+	//camera.y = rect.y + p.y;
+	camera.x = p.x;
+	camera.y = p.y;
+	collisionRect.setX(p.x);
+	collisionRect.setY(p.y);
 
 	SDL_RenderCopy(renderer, image, &crop, &camera);
 	SDL_RenderCopy(renderer, collImg, NULL, &collisionRect.getRect());
 }
-
+/*
 float Sprite::getX(){
-	return xPos;
+//	return xPos;
 }
 
 float Sprite::getY(){
-	return yPos;
+//	return yPos;
 }
 
 void Sprite::setX(float x){
 	rect.x = int(x + origin_x);
-	xPos = x;
+//	xPos = x;
 }
 void Sprite::setY(float y){
 	rect.y = int(y + origin_y);
-	yPos = y;
+//	yPos = y;
 }
-
+*/
 void Sprite::setPosition(float x, float y){
 	rect.x = (int)x;
 	rect.y = (int)y;
-	xPos = x;
-	yPos = y;
+//	xPos = x;
+//	yPos = y;
 }
 
 float Sprite::getHeight(){

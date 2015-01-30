@@ -1,18 +1,17 @@
 #pragma once
-//#include "Tree.h"
 #include "CollisionRect.h"
-//#include "Environment.h"
+#include "Environment.h"
 #include "Sprite.h"
 class mainCharacter : public Sprite
 {
 public:
-	mainCharacter(TL_Engine *p_engine, const char* FilePath, int x, int y, int h, int w, CollisionRect p_collisionRect);
+	mainCharacter(TL_Engine *p_engine, Environment *p_environment, const char* FilePath, int x, int y, int h, int w, CollisionRect p_collisionRect);
 
 	~mainCharacter();
 	void update();
 	void draw();
 private:
-	//Environment *environment;
+	Environment *environment;
 	float SPEED;
 	Point follow;
 	bool *following;

@@ -10,11 +10,11 @@ public:
 
 	void draw();
 	
-	float getX();
-	float getY();
+//	float getX();
+//	float getY();
 	SDL_Rect camera;
-	void setX(float x);
-	void setY(float y);
+//	void setX(float x);
+//	void setY(float y);
 
 	void setPosition(float x, float y);
 
@@ -44,8 +44,8 @@ private:
 	SDL_Rect crop;
 	float origin_x;
 	float origin_y;
-	float xPos;
-	float yPos;
+//	float xPos;
+//	float yPos;
 
 	int image_width;
 	int image_height;

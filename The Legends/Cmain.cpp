@@ -14,7 +14,7 @@ Cmain::Cmain(int passed_screenWidth, int passed_screenHeight)
 	
 	debug = new Debug(engine);
 	bob = NULL;
-	bob = new mainCharacter(engine, "data/tom.png", 300, 250, 130, 130, CollisionRect(0, 0, 60, 35));
+	bob = new mainCharacter(engine, forestArea, "data/tom.png", 300, 250, 130, 130, CollisionRect(0, 0, 60, 35));
 
 	players->addPlayer(bob);
 	//SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -40,8 +40,8 @@ void Cmain::GameLoop(void){
 		//draw sprites
 		forestArea->drawBack();
 		players->update();
-		bob->draw();
 		bob->update();
+		bob->draw();
 		forestArea->drawFront();
 		forestArea->update();
 		if (engine->debug){
