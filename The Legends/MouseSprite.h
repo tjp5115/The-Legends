@@ -8,6 +8,5 @@ public:
 	void draw();
 private:
 	bool *character_moving;
-
 };
 

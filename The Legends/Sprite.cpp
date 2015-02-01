@@ -35,14 +35,14 @@ Sprite::Sprite(TL_Engine *p_engine, const char* FilePath, int x, int y, int w, i
 	crop.w = image_width;
 	crop.h = image_height;
 
-	origin_x -=rect.w / 2;
-	origin_y -= rect.h - 10 ;
+	origin.x -=rect.w / 2;
+	origin.y -= rect.h - 10 ;
 
-	amount_frame_x = 0;
-	amount_frame_y = 0;
+	amount_frame.x = 0;
+	amount_frame.y = 0;
 
-	camera.x = rect.x + engine->camera->x;
-	camera.y = rect.y + engine->camera->y;
+	camera.x = rect.x + engine->getCamPos().x;
+	camera.y = rect.y + engine->getCamPos().y;
 	camera.w = rect.w;
 	camera.h = rect.h;
 
@@ -55,8 +55,8 @@ Sprite::~Sprite()
 }
 
 void Sprite::setupAnimation(int x, int y){
-	amount_frame_x = x;
-	amount_frame_y = y;
+	amount_frame.x = x;
+	amount_frame.y = y;
 }
 
 void Sprite::playAnimation(int beginFrame, int endFrame, int row, float speed){
@@ -67,10 +67,10 @@ void Sprite::playAnimation(int beginFrame, int endFrame, int row, float speed){
 		else{
 			currentFrame++;
 		}
-		crop.x = currentFrame * image_width / amount_frame_x;
-		crop.y = image_height / amount_frame_y * row;
-		crop.w = image_width / amount_frame_x;
-		crop.h = image_height / amount_frame_y;
+		crop.x = currentFrame * image_width / amount_frame.x;
+		crop.y = image_height / amount_frame.y * row;
+		crop.w = image_width / amount_frame.x;
+		crop.h = image_height / amount_frame.y;
 
 		animationDelay = SDL_GetTicks();
 	}
@@ -82,10 +82,10 @@ void Sprite::drawSteady(){
 }
 
 void Sprite::draw(void){
-	camera.x = rect.x + engine->camera->x;
-	camera.y = rect.y + engine->camera->y;
-	collisionRect.setX(rect.x + engine->camera->x);
-	collisionRect.setY(rect.y + engine->camera->y);
+	camera.x = rect.x + engine->getCamPos().x;
+	camera.y = rect.y + engine->getCamPos().y;
+	collisionRect.setX(rect.x + engine->getCamPos().x);
+	collisionRect.setY(rect.y + engine->getCamPos().y);
 
 	SDL_RenderCopy(renderer, image, &crop, &camera);
 	SDL_RenderCopy(renderer, collImg, NULL,&collisionRect.getRect());

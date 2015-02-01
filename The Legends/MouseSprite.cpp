@@ -13,10 +13,10 @@ MouseSprite::~MouseSprite()
 }
 void MouseSprite::draw(){
 	if (character_moving){
-		camera.x = engine->mouseClick.x - getPositionRect().w / 2;
-		camera.y = engine->mouseClick.y - getPositionRect().h / 2;
-		collisionRect.setX(rect.x + engine->camera->x);
-		collisionRect.setY(rect.y + engine->camera->y);
+		camera.x = engine->getMsePos().x - getPositionRect().w / 2;
+		camera.y = engine->getMapPos().y - getPositionRect().h / 2;
+		collisionRect.setX(rect.x + engine->getCamPos().x);
+		collisionRect.setY(rect.y + engine->getCamPos().y);
 
 		Sprite::drawSteady();
 	}

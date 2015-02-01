@@ -19,8 +19,6 @@ public:
 	~TL_Engine();
 	int screenWidth;
 	int screenHeight;
-	Point *camera;
-	Point *mouse;
 	SDL_Renderer* getRenderer();
 	SDL_Event* getMainEvent();
 	void update_begin();
@@ -31,11 +29,24 @@ public:
 	vector<string> debugText;
 	void addDebugText(string s);
 	void updateDebug();
-	Point mouseClick;
 	bool quit;
 
+	void updateMapPos(Point p);
+	void updateMsePos(Point p); 
+	void updateMseClickPos(Point p); 
+	void updateCamPos(Point p); 
+
+	Point getMapPos(){ return *mapPos; }
+	Point getMseClickPos(){ return *mouseClickPos; }
+	Point getMsePos(){ return *mousePos; }
+	Point getCamPos(){ return *cameraPos; }
+
 private:
-	void updateMousePosition(); 
+	Point *mapPos; 
+	Point *mouseClickPos;
+	Point *mousePos;
+	Point *cameraPos;
+
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	SDL_Event *mainEvent;

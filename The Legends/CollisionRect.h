@@ -9,11 +9,11 @@ public:
 
 	SDL_Rect getRect(){ return collisionRect; }
 	void setRect(int x , int y, int w, int h);
-	void setX(int x){ collisionRect.x = x + offsetX; }
-	void setY(int y){ collisionRect.y = y + offsetY; }
+	void setX(int x){ collisionRect.x = x + offset.x; }
+	void setY(int y){ collisionRect.y = y + offset.y; }
 	
 private:
-	int offsetX,offsetY;
+	Point offset;
 	SDL_Rect collisionRect;
 };
 

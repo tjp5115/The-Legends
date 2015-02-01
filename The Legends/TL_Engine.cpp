@@ -5,8 +5,12 @@ TL_Engine::TL_Engine(int passed_screenWidth, int passed_screenHeight)
 {
 	quit = false;
 	debug = true;
-	mouse = new Point(0, 0);
-	camera = new Point(0, 0);
+	
+	mousePos = new Point();
+	cameraPos = new Point();
+	mapPos = new Point();
+	mouseClickPos = new Point();
+
 	SDL_Init(SDL_INIT_VIDEO);
 	window = NULL;
 	window = SDL_CreateWindow("The Legends", 100, 100, passed_screenWidth, passed_screenHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_SHOWN );
@@ -30,8 +34,10 @@ TL_Engine::~TL_Engine()
 	SDL_DestroyRenderer(renderer);
 	delete mainEvent;
 	debugText.clear();
-	delete camera;
-	delete mouse;
+	delete cameraPos;
+	delete mapPos;
+	delete mouseClickPos;
+	delete mousePos;
 }
 
 SDL_Renderer* TL_Engine::getRenderer(){
@@ -44,10 +50,10 @@ SDL_Event* TL_Engine::getMainEvent(){
 
 
 void TL_Engine::update_begin(){
-	int x = mouse->x;
-	int y = mouse->y;
+	int x = mousePos->x;
+	int y = mousePos->y;
 	SDL_GetMouseState(&x, &y);
-	mouse->set(x, y);
+	mousePos->set(x, y);
 
 	SDL_PollEvent(mainEvent);
 	SDL_RenderClear(renderer);
@@ -77,9 +83,9 @@ bool TL_Engine::mouseClickLeft(){
 }
 void TL_Engine::updateDebug(){
 	std::string t;
-	t = "mouseX:     " + to_string(mouse->x) + "    mouseY    " + to_string(mouse->y);
+	t = "mouseX:     " + to_string(mousePos->x) + "    mouseY    " + to_string(mousePos->y);
 	addDebugText(t);
-	t = "cameraX:    " + to_string(camera->x) + "        cameraY    " + to_string(camera->y);
+	t = "cameraX:    " + to_string(cameraPos->x) + "        cameraY    " + to_string(cameraPos->y);
 	addDebugText(t);
 }
 void TL_Engine::update_end(){
@@ -96,3 +102,22 @@ void TL_Engine::addDebugText(string s){
 	debugText.push_back(s);
 }
 
+void TL_Engine::updateMapPos(Point p){
+	mapPos->x += p.x;
+	mapPos->y += p.y;
+}
+void TL_Engine::updateMsePos(Point p){
+	mousePos->x += p.x;
+	mousePos->y += p.y;
+
+}
+void TL_Engine::updateMseClickPos(Point p){
+	mouseClickPos->x += p.x;
+	mouseClickPos->y += p.y;
+
+}
+void TL_Engine::updateCamPos(Point p){
+	cameraPos->x += p.x;
+	cameraPos->y += p.y;
+
+}

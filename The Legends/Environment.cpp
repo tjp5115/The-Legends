@@ -101,7 +101,7 @@ void Environment::update(){
 	if (game_mode == EDIT){
 		if (engine->getMainEvent()->type == SDL_KEYDOWN){
 			if (!onePressed && engine->getMainEvent()->key.keysym.sym == SDLK_F1){
-				trees.push_back(new Tree(engine, - engine->camera->intX() + 275, - engine->camera->intY() + 50));
+				trees.push_back(new Tree(engine, - engine->getCamPos().x + 275, - engine->getCamPos().y + 50));
 				onePressed = true;
 				//std::cout << "X: " << *cameraX << "\tY: " << *cameraY << std::endl;
 			}

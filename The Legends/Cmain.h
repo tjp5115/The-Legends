@@ -15,13 +15,12 @@ public:
 
 private: 
 	Environment *forestArea;
-
-
 	Players *players;
+	mainCharacter *bob;
+
 	TL_Engine *engine;
 
 	Debug *debug;
-	mainCharacter *bob;
 
 };
 

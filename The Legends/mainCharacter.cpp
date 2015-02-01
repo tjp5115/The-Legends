@@ -34,7 +34,7 @@ void mainCharacter::draw(){
 }
 
 void mainCharacter::updateAnimation(){
-	float angle = atan2(follow.y - engine->camera->y, follow.x - engine->camera->x);
+	float angle = atan2(follow.y - engine->getCamPos().y, follow.x - engine->getCamPos().x);
 	angle = angle * (180 / 3.14) + 180;
 	if (angle > 225 && angle <= 315){
 		//up
@@ -77,11 +77,12 @@ void mainCharacter::updateAnimation(){
 void mainCharacter::updateControls(){
 
 	if (engine->mouseClickLeft()){
-		engine->mouseClick = *engine->mouse;
+		engine->updateMseClickPos(engine->getMsePos());
+		//engine->mouseClick = *engine->mouse;
 		//follow.x = position->x - engine->mouse->x + getWidth()/2 ;
 		//follow.y = position->y - engine->mouse->y + getHeight() ;
-		follow.x = engine->camera->x + engine->mouse->x - getWidth()/2;
-		follow.y = engine->camera->y + engine->mouse->y - getHeight();
+		follow.x = engine->getCamPos().x + engine->getMsePos().x - getWidth()/2; // we need a map poistion Point in the engine. 
+		follow.y = engine->getCamPos().y + engine->getMsePos().y - getHeight();
 		
 		*following = true;
 
@@ -115,16 +116,16 @@ void mainCharacter::collision(){
 	std::vector<Tree*> trees = environment->getTrees();
 	for (int i = 0; i < trees.size(); ++i){
 		if (isColliding(trees[i]->getTrunk()->getCollisionRect())) {
-			if (follow.x< engine->camera->x){
+			if (follow.x< engine->getCamPos().x){
 				position->x += 5;
 			}
-			if (follow.x> engine->camera->x ){
+			if (follow.x> engine->getCamPos().x){
 				position->x -= 5;
 			}
-			if (follow.y< engine->camera->y){
+			if (follow.y< engine->getCamPos().y){
 				position->y += 5;
 			}
-			if (follow.y> engine->camera->y){
+			if (follow.y> engine->getCamPos().y){
 				position->y -= 5;
 			}
 			*following = false;
@@ -139,13 +140,16 @@ void mainCharacter::moveCharacter(Point dist){
 		if (position->intX() != follow.intX()){
 			position->x -= dist.x;
 			if (!engine->mouseClickLeft()){
-				engine->mouseClick.x -= dist.x;
+				//engine->mouseClick.y -= dist.y;
+				engine->updateMseClickPos(Point(-dist.x,0));
 			}
 		}
 		if (position->intY() != follow.intY()){
 			position->y -= dist.y;
 			if (!engine->mouseClickLeft()){
-				engine->mouseClick.y -= dist.y;
+				//engine->mouseClick.y -= dist.y;
+				engine->updateMseClickPos(Point(0,-dist.y)); 
+
 			}
 		}
 	}
@@ -156,7 +160,7 @@ void mainCharacter::update(){
 	if (engine->debug){
 		string s = "followX:    " + to_string(follow.x) + "    followY     " + to_string(follow.y);
 		engine->addDebugText(s);
-		s = "mouseClickX:    " + to_string(engine->mouseClick.x) + "    mouseClickY     " + to_string(engine->mouseClick.y);
+		s = "mouseClickX:    " + to_string(engine->getMseClickPos().x) + "    mouseClickY     " + to_string(engine->getMseClickPos().y);
 		engine->addDebugText(s);
 		s = "distance:    " + to_string(distance);
 		engine->addDebugText(s);

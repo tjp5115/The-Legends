@@ -27,39 +27,32 @@ public:
 	void setHeight(int h);
 	void playAnimation(int beginFrame, int endFrame, int row, float speed);
 	void setupAnimation(int x, int y);
+
 	void draw(Point p);
 	void drawSteady();
+	
 	void movePos();
+	
 	bool isColliding(CollisionRect theCollider);
 	CollisionRect getCollisionRect(){ return collisionRect; }
-	void drawPointer(int mouseClickX, int mouseClickY);
+	
 	SDL_Rect getPositionRect(){ return rect; }
 protected:
 	TL_Engine *engine;
 	CollisionRect collisionRect;
 	SDL_Rect rect;
 private:
-	SDL_Renderer *renderer;
+	Point origin;
+	Point amount_frame;
 
-	SDL_Rect crop;
-	float origin_x;
-	float origin_y;
-//	float xPos;
-//	float yPos;
-
-	int image_width;
 	int image_height;
-
-	int amount_frame_x;
-	int amount_frame_y;
-
 	int currentFrame;
 	int animationDelay;
+	int image_width;
 
+	SDL_Renderer *renderer;
+	SDL_Rect crop;
 	SDL_Texture* image;
 	SDL_Texture* collImg;
-
-
-
 };
 

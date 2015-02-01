@@ -31,13 +31,16 @@ public:
 	std::vector<Tree*> getTrees(){ return trees; }
 private:
 	TL_Engine *engine;
+
 	std::vector<Sprite*> grass;
 	std::vector<Sprite*> border;
+
 	Sprite *corner[4];
+	std::vector<Tree*> trees;
+
 	bool onePressed;
+
 	int game_mode;
 	int env_type;
-	std::vector<Tree*> trees;
-	
 };
 

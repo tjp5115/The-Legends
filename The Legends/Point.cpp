@@ -1,7 +1,7 @@
 #include "Point.h"
 
 
-Point::Point(float p_x, float p_y)
+Point::Point(double p_x, double p_y)
 {
 	x = p_x;
 	y = p_y;
@@ -14,7 +14,4 @@ Point::Point()
 }
 Point::~Point()
 {
-}void Point::set(float p_x, float p_y){
-	x = p_x;
-	y = p_y; 
 }

@@ -11,18 +11,23 @@ public:
 	void update();
 	void draw();
 private:
-	Environment *environment;
-	float SPEED;
+	Point *position;
 	Point follow;
-	bool *following;
-	float distance;
-	bool collide;
 	Point moveDistance;
-	void moveCharacter(Point dist);
-	void collision();
+
 	void mainCharacter::updateAnimation();
 	void mainCharacter::updateControls();
+
+	Environment *environment;
+	float SPEED;
+	float distance;
+
 	int timeCheck;
-	Point *position;
+
+	bool collide;
+	bool *following;
+
+	void moveCharacter(Point dist);
+	void collision();
 };
 

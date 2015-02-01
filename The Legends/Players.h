@@ -11,9 +11,13 @@ public:
 	void addPlayer(Sprite *s);
 private:
 	TL_Engine *engine;
-	void updateMousePosition();
-	int mouseThreshold;
+
 	Point screenmove;
+
+	int mouseThreshold;
+
 	vector<Sprite*> players;
+
+	void updateMousePosition();
 };
 

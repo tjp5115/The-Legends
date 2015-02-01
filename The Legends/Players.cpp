@@ -6,7 +6,7 @@ Players::Players(TL_Engine *p_engine)
 	engine = p_engine;
 	screenmove.x = 5;
 	screenmove.y = 5;
-	mouseThreshold = 15;
+	mouseThreshold = 5;
 }
 
 
@@ -21,17 +21,21 @@ void Players::update(){
 }
 
 void Players::updateMousePosition(){
-	if (engine->mouse->intX() >= engine->screenWidth - mouseThreshold){
-		engine->camera->x -= screenmove.x;
+	if (engine->getMsePos().intX() >= engine->screenWidth - mouseThreshold){
+		//engine->camera->x -= screenmove.x;
+		engine->updateCamPos(Point(-screenmove.x,0));
 	}
-	if (engine->mouse->intX() <= mouseThreshold){
-		engine->camera->x += screenmove.x;
+	if (engine->getMsePos().intX() <= mouseThreshold){
+		//engine->camera->x += screenmove.x;
+		engine->updateCamPos(Point(screenmove.x,0));
 	}
-	if (engine->mouse->intY() >= engine->screenHeight - mouseThreshold){
-		engine->camera->y -= screenmove.y;
+	if (engine->getMsePos().intY() >= engine->screenHeight - mouseThreshold){
+		//engine->camera->y -= screenmove.y;
+		engine->updateCamPos(Point(0,-screenmove.y));
 	}
-	if (engine->mouse->intY() <= mouseThreshold){
-		engine->camera->y += screenmove.x;
+	if (engine->getMsePos().intY() <= mouseThreshold){
+		//engine->camera->y += screenmove.x;
+		engine->updateCamPos(Point(0,screenmove.y));
 	}
 }
 

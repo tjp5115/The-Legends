@@ -12,14 +12,18 @@ public:
 	void clear();
 private:
 	TL_Engine *engine;
+
 	SDL_Color White;
+	TTF_Font* Sans;
+
 	int fontSize;
+
 	typedef struct{
 		SDL_Texture* message; 
 		SDL_Rect rect; 
 		SDL_Surface *surface;
 	}text;
+
 	std::vector<text> debug_out;
-	TTF_Font* Sans;
 };
 
