@@ -31,17 +31,17 @@ public:
 	void updateDebug();
 	bool quit;
 
-	void updateMapPos(Point p);
 	void updateMsePos(Point p); 
 	void updateMseClickPos(Point p); 
 	void updateCamPos(Point p); 
-
 	Point getMapPos(){ return *mapPos; }
+
 	Point getMseClickPos(){ return *mouseClickPos; }
 	Point getMsePos(){ return *mousePos; }
 	Point getCamPos(){ return *cameraPos; }
 
 private:
+	void updateMapPos(Point p);
 	Point *mapPos; 
 	Point *mouseClickPos;
 	Point *mousePos;

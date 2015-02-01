@@ -119,5 +119,6 @@ void TL_Engine::updateMseClickPos(Point p){
 void TL_Engine::updateCamPos(Point p){
 	cameraPos->x += p.x;
 	cameraPos->y += p.y;
+	updateMapPos(Point(-p.x, -p.y));
 
 }

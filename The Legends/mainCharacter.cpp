@@ -78,11 +78,9 @@ void mainCharacter::updateControls(){
 
 	if (engine->mouseClickLeft()){
 		engine->updateMseClickPos(engine->getMsePos());
-		//engine->mouseClick = *engine->mouse;
-		//follow.x = position->x - engine->mouse->x + getWidth()/2 ;
-		//follow.y = position->y - engine->mouse->y + getHeight() ;
-		follow.x = engine->getCamPos().x + engine->getMsePos().x - getWidth()/2; // we need a map poistion Point in the engine. 
-		follow.y = engine->getCamPos().y + engine->getMsePos().y - getHeight();
+
+		follow.x = engine->getMapPos().x + engine->getMsePos().x - getWidth()/2; // we need a map poistion Point in the engine. 
+		follow.y = engine->getMapPos().y + engine->getMsePos().y - getHeight();
 		
 		*following = true;
 
@@ -98,13 +96,6 @@ void mainCharacter::updateControls(){
 		}
 		else{
 			*position = follow;
-			/*
-			Point temp;
-			temp.x = engine->camera->x - follow.x;
-			temp.y = engine->camera->y - follow.y;
-			
-			moveCharacter(temp);
-			*/
 			*following = false;
 		}
 		timeCheck = SDL_GetTicks();
@@ -130,7 +121,6 @@ void mainCharacter::collision(){
 			}
 			*following = false;
 			collide = true;
-			//follow = *engine->camera;
 		}
 	}
 }
@@ -140,14 +130,12 @@ void mainCharacter::moveCharacter(Point dist){
 		if (position->intX() != follow.intX()){
 			position->x -= dist.x;
 			if (!engine->mouseClickLeft()){
-				//engine->mouseClick.y -= dist.y;
 				engine->updateMseClickPos(Point(-dist.x,0));
 			}
 		}
 		if (position->intY() != follow.intY()){
 			position->y -= dist.y;
 			if (!engine->mouseClickLeft()){
-				//engine->mouseClick.y -= dist.y;
 				engine->updateMseClickPos(Point(0,-dist.y)); 
 
 			}
