@@ -13,7 +13,7 @@ Sprite(p_engine, FilePath, x, y, h, w, p_collisionRect)
 	distance = 0;
 	collide = false;
 	
-	position = new Point(0, 0);
+	position = new Point(250,400);
 
 	timeCheck = SDL_GetTicks();
 	setupAnimation(4, 4);
@@ -80,9 +80,9 @@ void mainCharacter::updateControls(){
 		engine->mouseClick = *engine->mouse;
 		//follow.x = position->x - engine->mouse->x + getWidth()/2 ;
 		//follow.y = position->y - engine->mouse->y + getHeight() ;
-		follow.x = engine->camera->x - engine->mouse->x;
-		follow.y = engine->camera->y - engine->mouse->y;
-		;
+		follow.x = engine->camera->x + engine->mouse->x - getWidth()/2;
+		follow.y = engine->camera->y + engine->mouse->y - getHeight();
+		
 		*following = true;
 
 		distance = engine->getDistance(*position, follow);
